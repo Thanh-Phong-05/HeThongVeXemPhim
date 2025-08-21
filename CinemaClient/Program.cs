@@ -19,7 +19,7 @@ public class Program
         using var stream = client.GetStream();
         using var reader = new StreamReader(stream, Encoding.UTF8);
         using var writer = new StreamWriter(stream, new UTF8Encoding(false)) { AutoFlush = true };
-    
+
         Console.WriteLine(await reader.ReadLineAsync());
 
         while (true)
@@ -50,6 +50,13 @@ public class Program
             await writer.WriteLineAsync(payload);
             var resp = await reader.ReadLineAsync();
             Console.WriteLine($" {resp}");
+        }
+        
+        static string BuildListShows()
+        {
+            Console.Write("movieId: ");
+            var movieId = Console.ReadLine()?.Trim();
+            return JsonSerializer.Serialize(new { action = "list_shows", movieId });
         }
     }
 }
