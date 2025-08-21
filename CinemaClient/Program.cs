@@ -13,6 +13,21 @@ namespace CinemaClient;
         Console.Write("> ");
         var key = Console.ReadLine()?.Trim();
         if (key == "0" || key?.ToLower() == "exit") break;
+        string? payload = key switch
+        {
+            "1" => JsonSerializer.Serialize(new { action = "list_movies" }),
+            "2" => BuildListShows(),
+            "3" => BuildViewSeats(),
+            "4" => BuildBook(),
+            "5" => BuildRelease(),
+            _ => null
+        };
+        if (payload == null) { Console.WriteLine("❓ Lựa chọn không hợp lệ."); continue; }
+
+        await writer.WriteLineAsync(payload);
+        var resp = await reader.ReadLineAsync();
+        Console.WriteLine($"← {resp}");
+
     }
 
 
