@@ -58,12 +58,22 @@ public class Program
             var movieId = Console.ReadLine()?.Trim();
             return JsonSerializer.Serialize(new { action = "list_shows", movieId });
         }
-        
+
         static string BuildViewSeats()
         {
             Console.Write("showId: ");
             var showId = Console.ReadLine()?.Trim();
             return JsonSerializer.Serialize(new { action = "view_seats", showId });
+        }
+        
+        static string BuildBook()
+        {
+            Console.Write("showId: ");
+             showId = Console.ReadLine()?.Trim();
+            Console.Write("seats (vd: A1,A2): ");
+            var seats = (Console.ReadLine() ?? "")
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            return JsonSerializer.Serialize(new { action = "book", showId, seats });
         }
     }
 }
