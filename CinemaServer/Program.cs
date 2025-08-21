@@ -86,5 +86,75 @@ public class TicketServer
         }
     }
 
+    private string ProcessRequest(string line)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(line);
+            var root = doc.RootElement;
+            var action = root.GetProperty("action").GetString() ?? "";
+
+            switch (action)
+            {
+                case "list_movies":
+                    return JsonSerializer.Serialize(new { ok = true, movies = _movies.Values.Select(m => new { m.Id, m.Title }) });
+
+                case "list_shows":
+                    var movieId = root.GetProperty("movieId").GetString();
+                    var shows = _shows.Values.Where(s => s.MovieId == movieId).Select(s => new { s.Id, s.MovieId, startTime = s.StartTime });
+                    return JsonSerializer.Serialize(new { ok = true, shows });
+
+                case "view_seats":
+                    var showId = root.GetProperty("showId").GetString();
+                    if (showId == null || !_shows.TryGetValue(showId, out var show))
+                        return JsonSerializer.Serialize(new { ok = false, error = "show_not_found" });
+
+                    var all = show.AllSeats().ToHashSet();
+                    var booked = show.Booked.ToArray();
+                    var available = all.Except(booked).OrderBy(x => x).ToArray();
+                    return JsonSerializer.Serialize(new { ok = true, rows = show.Rows, cols = show.Cols, available, booked });
+
+                case "book":
+                    var showId = root.GetProperty("showId").GetString();
+                    var seats = root.GetProperty("seats").EnumerateArray().Select(x => x.GetString()!).ToList();
+                    if (showId == null || !_shows.TryGetValue(showId, out var show))
+                        return JsonSerializer.Serialize(new { ok = false, error = "show_not_found" });
+
+                    List<string> booked = new(); List<string> failed = new();
+                    lock (show.SeatLock)
+                    {
+                        var valid = show.AllSeats().ToHashSet();
+                        foreach (var s in seats)
+                        {
+                            if (!valid.Contains(s) || show.Booked.Contains(s)) failed.Add(s);
+                            else { show.Booked.Add(s); booked.Add(s); }
+                        }
+                    }
+                    return JsonSerializer.Serialize(new { ok = failed.Count == 0, booked, failed });
+
+                case "release":
+                    var showId = root.GetProperty("showId").GetString();
+                    var seats = root.GetProperty("seats").EnumerateArray().Select(x => x.GetString()!).ToList();
+                    if (showId == null || !_shows.TryGetValue(showId, out var show))
+                        return JsonSerializer.Serialize(new { ok = false, error = "show_not_found" });
+
+                    List<string> released = new();
+                    lock (show.SeatLock)
+                    {
+                        foreach (var s in seats)
+                            if (show.Booked.Remove(s)) released.Add(s);
+                    }
+                    return JsonSerializer.Serialize(new { ok = true, released });
+
+                default:
+                    return JsonSerializer.Serialize(new { ok = false, error = "unknown_action" });
+            }
+        }
+        catch (Exception ex)
+        {
+            return JsonSerializer.Serialize(new { ok = false, error = "bad_request", detail = ex.Message });
+        }
+    }
+
 
 }
