@@ -24,7 +24,22 @@ public class TicketServer
 
     public TicketServer(IPAddress ip, int port)
     {
-    _listener = new TcpListener(ip, port);
-    SeedData();
+        _listener = new TcpListener(ip, port);
+        SeedData();
     }
+    private void SeedData()
+    {
+        var m1 = new Movie("M1", "Inception");
+        var m2 = new Movie("M2", "Interstellar");
+        _movies[m1.Id] = m1;
+        _movies[m2.Id] = m2;
+
+
+        // two shows each
+        _shows["S1"] = new Show { Id = "S1", MovieId = m1.Id, StartTime = DateTime.Now.AddHours(2) };
+        _shows["S2"] = new Show { Id = "S2", MovieId = m1.Id, StartTime = DateTime.Now.AddHours(5) };
+        _shows["S3"] = new Show { Id = "S3", MovieId = m2.Id, StartTime = DateTime.Now.AddHours(3) };
+        _shows["S4"] = new Show { Id = "S4", MovieId = m2.Id, StartTime = DateTime.Now.AddHours(6) };
+    }
+
 }
