@@ -41,5 +41,16 @@ public class TicketServer
         _shows["S3"] = new Show { Id = "S3", MovieId = m2.Id, StartTime = DateTime.Now.AddHours(3) };
         _shows["S4"] = new Show { Id = "S4", MovieId = m2.Id, StartTime = DateTime.Now.AddHours(6) };
     }
+    public async Task StartAsync(CancellationToken ct = default)
+    {
+        _listener.Start();
+        Console.WriteLine("Server đang lắng nghe...");
+        while (!ct.IsCancellationRequested)
+        {
+            var client = await _listener.AcceptTcpClientAsync(ct);
+            _ = HandleClientAsync(client, ct); // phục vụ nhiều client song song
+        }
+    }
+
 
 }
