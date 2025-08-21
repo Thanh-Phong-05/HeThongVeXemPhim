@@ -2,32 +2,22 @@
 using System.Text;
 using System.Text.Json;
 
-
 namespace CinemaClient;
 
-    Console.WriteLine(await reader.ReadLineAsync());
-
-    while (true)
+public class Program
+{
+    public static async Task Main(string[] args)
     {
-        Console.WriteLine("\nChọn thao tác: 1) List Movies 2) List Shows 3) View Seats 4) Book 5) Release 0) Exit");
-        Console.Write("> ");
-        var key = Console.ReadLine()?.Trim();
-        if (key == "0" || key?.ToLower() == "exit") break;
-        string? payload = key switch
-        {
-            "1" => JsonSerializer.Serialize(new { action = "list_movies" }),
-            "2" => BuildListShows(),
-            "3" => BuildViewSeats(),
-            "4" => BuildBook(),
-            "5" => BuildRelease(),
-            _ => null
-        };
-        if (payload == null) { Console.WriteLine("❓ Lựa chọn không hợp lệ."); continue; }
+        string host = args.Length > 0 ? args[0] : "127.0.0.1";
+        int port = args.Length > 1 ? int.Parse(args[1]) : 5000;
 
-        await writer.WriteLineAsync(payload);
-        var resp = await reader.ReadLineAsync();
-        Console.WriteLine($"← {resp}");
+        using var client = new TcpClient();
+        client.NoDelay = true;
+        await client.ConnectAsync(host, port);
+        Console.WriteLine($"✅ Kết nối {host}:{port}");
 
+        using var stream = client.GetStream();
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        using var writer = new StreamWriter(stream, new UTF8Encoding(false)) { AutoFlush = true };
     }
-
-
+}
