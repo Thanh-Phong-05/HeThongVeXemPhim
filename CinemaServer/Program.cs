@@ -16,6 +16,31 @@ public class Program
     }
 }
 
+public record Movie(string Id, string Title);
+
+
+public class Show
+{
+    public string Id { get; init; } = Guid.NewGuid().ToString("N");
+    public string MovieId { get; init; } = string.Empty;
+    public DateTime StartTime { get; init; }
+    public HashSet<string> Booked { get; } = new(); // e.g., "A1"
+    public object SeatLock { get; } = new();
+    public int Rows { get; init; } = 5; // A..E
+    public int Cols { get; init; } = 10; // 1..10
+
+
+    public IEnumerable<string> AllSeats()
+    {
+        for (int r = 0; r < Rows; r++)
+        {
+            char rowChar = (char)('A' + r);
+            for (int c = 1; c <= Cols; c++)
+                yield return $"{rowChar}{c}";
+        }
+    }
+}
+
 public class TicketServer
 {
     private readonly TcpListener _listener;
