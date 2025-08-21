@@ -52,5 +52,39 @@ public class TicketServer
         }
     }
 
+    private async Task HandleClientAsync(TcpClient client, CancellationToken ct)
+    {
+        Console.WriteLine($" Client kết nối: {client.Client.RemoteEndPoint}");
+
+        client.NoDelay = true;
+        client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
+        using var stream = client.GetStream();
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        using var writer = new StreamWriter(stream, new UTF8Encoding(false)) { AutoFlush = true };
+
+        await writer.WriteLineAsync("{\"hello\":true,\"info\":\"One JSON per line\"}");
+
+        try
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                var line = await reader.ReadLineAsync();
+                if (line == null) break;
+                var response = ProcessRequest(line);
+                await writer.WriteLineAsync(response);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($" Lỗi client: {ex.Message}");
+        }
+        finally
+        {
+            client.Close();
+            Console.WriteLine("⬅ Client ngắt kết nối");
+        }
+    }
+
 
 }
