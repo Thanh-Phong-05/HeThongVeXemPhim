@@ -15,3 +15,11 @@ public class Program
         await server.StartAsync();
     }
 }
+
+public class TicketServer
+{
+    private readonly TcpListener _listener;
+    private readonly ConcurrentDictionary<string, Movie> _movies = new();
+    private readonly ConcurrentDictionary<string, Show> _shows = new();
+
+}
