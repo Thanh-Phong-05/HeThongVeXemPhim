@@ -22,4 +22,9 @@ public class TicketServer
     private readonly ConcurrentDictionary<string, Movie> _movies = new();
     private readonly ConcurrentDictionary<string, Show> _shows = new();
 
+    public TicketServer(IPAddress ip, int port)
+    {
+    _listener = new TcpListener(ip, port);
+    SeedData();
+    }
 }
