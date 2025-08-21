@@ -5,3 +5,13 @@ using System.Text.Json;
 using System.Collections.Concurrent;
 
 namespace CinemaServer;
+
+public class Program
+{
+    public static async Task Main(string[] args)
+    {
+        var server = new TicketServer(IPAddress.Loopback, 5000);
+        Console.WriteLine("Server đang khởi động tại 127.0.0.1:5000 ...");
+        await server.StartAsync();
+    }
+}
