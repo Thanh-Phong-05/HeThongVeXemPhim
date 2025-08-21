@@ -51,12 +51,19 @@ public class Program
             var resp = await reader.ReadLineAsync();
             Console.WriteLine($" {resp}");
         }
-        
+
         static string BuildListShows()
         {
             Console.Write("movieId: ");
             var movieId = Console.ReadLine()?.Trim();
             return JsonSerializer.Serialize(new { action = "list_shows", movieId });
+        }
+        
+        static string BuildViewSeats()
+        {
+            Console.Write("showId: ");
+            var showId = Console.ReadLine()?.Trim();
+            return JsonSerializer.Serialize(new { action = "view_seats", showId });
         }
     }
 }
