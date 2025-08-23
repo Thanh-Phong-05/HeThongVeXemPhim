@@ -41,10 +41,18 @@ public partial class Form1 : Form
         txtOutput.Text = resp;
     }
 
-     private async void btnViewSeats_Click(object sender, EventArgs e)
+    private async void btnViewSeats_Click(object sender, EventArgs e)
     {
         string showId = txtShowId.Text.Trim();
         await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "view_seats", showId }));
+        string resp = await _reader!.ReadLineAsync() ?? "";
+        txtOutput.Text = resp;
+    }
+    private async void btnBook_Click(object sender, EventArgs e)
+    {
+        string showId = txtShowId.Text.Trim();
+        string[] seats = txtSeats.Text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "book", showId, seats }));
         string resp = await _reader!.ReadLineAsync() ?? "";
         txtOutput.Text = resp;
     }
