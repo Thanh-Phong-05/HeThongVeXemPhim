@@ -114,11 +114,16 @@ public partial class Form1 : Form
 
     private async void btnRelease_Click(object sender, EventArgs e)
     {
-        string showId = txtShowId.Text.Trim();
-        string[] seats = txtSeats.Text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "release", showId, seats }));
-        string resp = await _reader!.ReadLineAsync() ?? "";
-        txtOutput.Text = resp;
+         var showId = txtShowId.Text.Trim();
+        var seats = txtSeats.Text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        var payload = JsonSerializer.Serialize(new { action = "release", showId, seats });
+        await writer.WriteLineAsync(payload);
+        var resp = await reader.ReadLineAsync();
+
+        txtOutput.Text = $"← {resp}";
+
+        await RefreshSeats(showId);
     }
 }
 public class MovieDto
