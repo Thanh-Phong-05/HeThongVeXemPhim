@@ -63,17 +63,35 @@ public class TicketServer
     }
     private void SeedData()
     {
-        var m1 = new Movie("M1", "Inception");
-        var m2 = new Movie("M2", "Interstellar");
-        _movies[m1.Id] = m1;
-        _movies[m2.Id] = m2;
+        // Đọc file JSON
+        var json = File.ReadAllText("movies.json");
+        var movies = JsonSerializer.Deserialize<List<Movie>>(json)!;
 
+        foreach (var m in movies)
+        {
+            _movies[m.Id] = m;
+        }
 
-        // two shows each
-        _shows["S1"] = new Show { Id = "S1", MovieId = m1.Id, StartTime = DateTime.Now.AddHours(2) };
-        _shows["S2"] = new Show { Id = "S2", MovieId = m1.Id, StartTime = DateTime.Now.AddHours(5) };
-        _shows["S3"] = new Show { Id = "S3", MovieId = m2.Id, StartTime = DateTime.Now.AddHours(3) };
-        _shows["S4"] = new Show { Id = "S4", MovieId = m2.Id, StartTime = DateTime.Now.AddHours(6) };
+        // Tạo suất chiếu cho mỗi phim (vd: 2 suất chiếu cách nhau 3 tiếng)
+        int showIndex = 1;
+        foreach (var movie in _movies.Values)
+        {
+            _shows["S" + showIndex] = new Show
+            {
+                Id = "S" + showIndex,
+                MovieId = movie.Id,
+                StartTime = DateTime.Now.AddHours(2)
+            };
+            showIndex++;
+
+            _shows["S" + showIndex] = new Show
+            {
+                Id = "S" + showIndex,
+                MovieId = movie.Id,
+                StartTime = DateTime.Now.AddHours(5)
+            };
+            showIndex++;
+        }
     }
     public async Task StartAsync(CancellationToken ct = default)
     {
