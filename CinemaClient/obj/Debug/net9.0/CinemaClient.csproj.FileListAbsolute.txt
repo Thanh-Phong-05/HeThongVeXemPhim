@@ -1,0 +1,15 @@
+D:\LapTrinhMang\SystemCinema\CinemaClient\bin\Debug\net9.0\CinemaClient.exe
+D:\LapTrinhMang\SystemCinema\CinemaClient\bin\Debug\net9.0\CinemaClient.deps.json
+D:\LapTrinhMang\SystemCinema\CinemaClient\bin\Debug\net9.0\CinemaClient.runtimeconfig.json
+D:\LapTrinhMang\SystemCinema\CinemaClient\bin\Debug\net9.0\CinemaClient.dll
+D:\LapTrinhMang\SystemCinema\CinemaClient\bin\Debug\net9.0\CinemaClient.pdb
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.GeneratedMSBuildEditorConfig.editorconfig
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.AssemblyInfoInputs.cache
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.AssemblyInfo.cs
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.csproj.CoreCompileInputs.cache
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.sourcelink.json
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.dll
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\refint\CinemaClient.dll
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.pdb
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\CinemaClient.genruntimeconfig.cache
+D:\LapTrinhMang\SystemCinema\CinemaClient\obj\Debug\net9.0\ref\CinemaClient.dll
