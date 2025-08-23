@@ -18,5 +18,141 @@
         private System.Windows.Forms.Button btnBook;
         private System.Windows.Forms.Button btnRelease;
 
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        private void InitializeComponent()
+        {
+            this.txtMovieId = new System.Windows.Forms.TextBox();
+            this.txtShowId = new System.Windows.Forms.TextBox();
+            this.txtSeats = new System.Windows.Forms.TextBox();
+            this.txtOutput = new System.Windows.Forms.TextBox();
+
+            this.btnListMovies = new System.Windows.Forms.Button();
+            this.btnListShows = new System.Windows.Forms.Button();
+            this.btnViewSeats = new System.Windows.Forms.Button();
+            this.btnBook = new System.Windows.Forms.Button();
+            this.btnRelease = new System.Windows.Forms.Button();
+
+            this.SuspendLayout();
+
+            // 
+            // txtMovieId
+            // 
+            this.txtMovieId.Location = new System.Drawing.Point(20, 20);
+            this.txtMovieId.Name = "txtMovieId";
+            this.txtMovieId.PlaceholderText = "Movie ID";
+            this.txtMovieId.Size = new System.Drawing.Size(200, 23);
+
+            // 
+            // txtShowId
+            // 
+            this.txtShowId.Location = new System.Drawing.Point(20, 50);
+            this.txtShowId.Name = "txtShowId";
+            this.txtShowId.PlaceholderText = "Show ID";
+            this.txtShowId.Size = new System.Drawing.Size(200, 23);
+
+            // 
+            // txtSeats
+            // 
+            this.txtSeats.Location = new System.Drawing.Point(20, 80);
+            this.txtSeats.Name = "txtSeats";
+            this.txtSeats.PlaceholderText = "Seats (A1,A2,...)";
+            this.txtSeats.Size = new System.Drawing.Size(200, 23);
+
+            // 
+            // txtOutput
+            // 
+            this.txtOutput.Location = new System.Drawing.Point(20, 120);
+            this.txtOutput.Multiline = true;
+            this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtOutput.Size = new System.Drawing.Size(500, 200);
+
+            // 
+            // btnListMovies
+            // 
+            this.btnListMovies.Location = new System.Drawing.Point(250, 20);
+            this.btnListMovies.Name = "btnListMovies";
+            this.btnListMovies.Size = new System.Drawing.Size(100, 30);
+            this.btnListMovies.Text = "List Movies";
+            this.btnListMovies.UseVisualStyleBackColor = true;
+            this.btnListMovies.Click += new System.EventHandler(this.btnListMovies_Click);
+
+            // 
+            // btnListShows
+            // 
+            this.btnListShows.Location = new System.Drawing.Point(250, 60);
+            this.btnListShows.Name = "btnListShows";
+            this.btnListShows.Size = new System.Drawing.Size(100, 30);
+            this.btnListShows.Text = "List Shows";
+            this.btnListShows.UseVisualStyleBackColor = true;
+            this.btnListShows.Click += new System.EventHandler(this.btnListShows_Click);
+
+            // 
+            // btnViewSeats
+            // 
+            this.btnViewSeats.Location = new System.Drawing.Point(250, 100);
+            this.btnViewSeats.Name = "btnViewSeats";
+            this.btnViewSeats.Size = new System.Drawing.Size(100, 30);
+            this.btnViewSeats.Text = "View Seats";
+            this.btnViewSeats.UseVisualStyleBackColor = true;
+            this.btnViewSeats.Click += new System.EventHandler(this.btnViewSeats_Click);
+
+            // 
+            // btnBook
+            // 
+            this.btnBook.Location = new System.Drawing.Point(250, 140);
+            this.btnBook.Name = "btnBook";
+            this.btnBook.Size = new System.Drawing.Size(100, 30);
+            this.btnBook.Text = "Book Seats";
+            this.btnBook.UseVisualStyleBackColor = true;
+            this.btnBook.Click += new System.EventHandler(this.btnBook_Click);
+
+            // 
+            // btnRelease
+            // 
+            this.btnRelease.Location = new System.Drawing.Point(250, 180);
+            this.btnRelease.Name = "btnRelease";
+            this.btnRelease.Size = new System.Drawing.Size(100, 30);
+            this.btnRelease.Text = "Release Seats";
+            this.btnRelease.UseVisualStyleBackColor = true;
+            this.btnRelease.Click += new System.EventHandler(this.btnRelease_Click);
+
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(550, 350);
+            this.Controls.Add(this.txtMovieId);
+            this.Controls.Add(this.txtShowId);
+            this.Controls.Add(this.txtSeats);
+            this.Controls.Add(this.txtOutput);
+
+            this.Controls.Add(this.btnListMovies);
+            this.Controls.Add(this.btnListShows);
+            this.Controls.Add(this.btnViewSeats);
+            this.Controls.Add(this.btnBook);
+            this.Controls.Add(this.btnRelease);
+
+            this.Name = "Form1";
+            this.Text = "Cinema Client";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+
+        #endregion
     }
 }
