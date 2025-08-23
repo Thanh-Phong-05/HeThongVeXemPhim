@@ -1,10 +1,9 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using System.Drawing;             // để dùng Color, Button, Panel...
-using System.Linq;                // để dùng .Select/.Where/.ToList()
-using System.Collections.Generic; // để dùng List<string>
-
+using System.Drawing;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CinemaClientGUI;
 
@@ -32,10 +31,10 @@ public partial class Form1 : Form
 
     private async void btnListMovies_Click(object sender, EventArgs e)
     {
-        await writer.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_movies" }));
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_movies" }));
+        var resp = await _reader!.ReadLineAsync();
 
-        using var doc = JsonDocument.Parse(resp);
+        using var doc = JsonDocument.Parse(resp!);
         if (!doc.RootElement.GetProperty("ok").GetBoolean())
         {
             MessageBox.Show("Không lấy được danh sách phim");
@@ -56,10 +55,10 @@ public partial class Form1 : Form
     private async void btnListShows_Click(object sender, EventArgs e)
     {
         var movieId = txtMovieId.Text.Trim();
-        await writer.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_shows", movieId }));
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_shows", movieId }));
+        var resp = await _reader!.ReadLineAsync();
 
-        using var doc = JsonDocument.Parse(resp);
+        using var doc = JsonDocument.Parse(resp!);
         if (!doc.RootElement.GetProperty("ok").GetBoolean())
         {
             MessageBox.Show("Không lấy được danh sách suất chiếu");
@@ -78,14 +77,13 @@ public partial class Form1 : Form
         dataGridShows.DataSource = shows;
     }
 
-
     private async void btnViewSeats_Click(object sender, EventArgs e)
     {
         var showId = txtShowId.Text.Trim();
-        await writer.WriteLineAsync(JsonSerializer.Serialize(new { action = "view_seats", showId }));
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "view_seats", showId }));
+        var resp = await _reader!.ReadLineAsync();
 
-        using var doc = JsonDocument.Parse(resp);
+        using var doc = JsonDocument.Parse(resp!);
         if (!doc.RootElement.GetProperty("ok").GetBoolean())
         {
             MessageBox.Show("Không lấy được ghế");
@@ -103,8 +101,11 @@ public partial class Form1 : Form
             .ToList();
 
         dataGridSeats.DataSource = seats;
-    }
 
+        RenderSeatMap(doc.RootElement.GetProperty("rows").GetInt32(),
+                      doc.RootElement.GetProperty("cols").GetInt32(),
+                      booked!);
+    }
 
     private async void btnBook_Click(object sender, EventArgs e)
     {
@@ -115,8 +116,7 @@ public partial class Form1 : Form
         await _writer!.WriteLineAsync(payload);
         var resp = await _reader!.ReadLineAsync();
 
-        txtOutput.Text = $"← {resp}";
-
+        MessageBox.Show($"← {resp}");
         await RefreshSeats(showId);
     }
 
@@ -129,8 +129,7 @@ public partial class Form1 : Form
         await _writer!.WriteLineAsync(payload);
         var resp = await _reader!.ReadLineAsync();
 
-        txtOutput.Text = $"← {resp}";
-
+        MessageBox.Show($"← {resp}");
         await RefreshSeats(showId);
     }
 
@@ -143,7 +142,7 @@ public partial class Form1 : Form
         var json = JsonDocument.Parse(resp!);
         if (!json.RootElement.GetProperty("ok").GetBoolean())
         {
-            txtOutput.AppendText("❌ Lỗi khi refresh seats.\n");
+            MessageBox.Show("❌ Lỗi khi refresh seats.");
             return;
         }
 
@@ -162,31 +161,13 @@ public partial class Form1 : Form
             .ToList();
         dataGridSeats.DataSource = seatsTable;
 
-        // vẽ lại sơ đồ ghế
         RenderSeatMap(rows, cols, booked);
-    }
-
-
-    private void dataGridSeats_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-    {
-        if (dataGridSeats.Columns[e.ColumnIndex].Name == "Available" && e.Value != null && e.Value.ToString() != "")
-        {
-            e.CellStyle.BackColor = Color.LightGreen;
-            e.CellStyle.ForeColor = Color.Black;
-        }
-
-        if (dataGridSeats.Columns[e.ColumnIndex].Name == "Booked" && e.Value != null && e.Value.ToString() != "")
-        {
-            e.CellStyle.BackColor = Color.LightCoral;
-            e.CellStyle.ForeColor = Color.White;
-        }
     }
 
     private void RenderSeatMap(int rows, int cols, List<string> booked)
     {
         panelSeats.Controls.Clear();
-
-        int btnSize = 35; // kích thước mỗi ghế
+        int btnSize = 35;
         int spacing = 5;
 
         for (int r = 0; r < rows; r++)
@@ -203,7 +184,6 @@ public partial class Form1 : Form
                 btn.Left = c * (btnSize + spacing);
                 btn.Top = r * (btnSize + spacing);
 
-                // nếu ghế đã đặt -> tô đỏ, disable
                 if (booked.Contains(seatId))
                 {
                     btn.BackColor = Color.LightCoral;
@@ -215,12 +195,12 @@ public partial class Form1 : Form
                     btn.Enabled = true;
                     btn.Click += (s, e) =>
                     {
-                        if (btn.BackColor == Color.LightGreen) // chọn
+                        if (btn.BackColor == Color.LightGreen)
                         {
                             btn.BackColor = Color.Yellow;
                             txtSeats.Text += (txtSeats.Text.Length > 0 ? "," : "") + seatId;
                         }
-                        else if (btn.BackColor == Color.Yellow) // bỏ chọn
+                        else if (btn.BackColor == Color.Yellow)
                         {
                             btn.BackColor = Color.LightGreen;
                             var seats = txtSeats.Text.Split(',').Where(x => x != seatId).ToArray();
@@ -233,13 +213,4 @@ public partial class Form1 : Form
             }
         }
     }
-
-
 }
-public class MovieDto
-    {
-        public string? Id { get; set; }
-        public string? Title { get; set; }
-    }
-
-
