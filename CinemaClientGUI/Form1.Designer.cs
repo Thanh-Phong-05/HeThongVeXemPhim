@@ -157,11 +157,29 @@
             this.dataGridMovies.Location = new System.Drawing.Point(20, 250);
             this.dataGridMovies.Size = new System.Drawing.Size(500, 200);
             this.dataGridMovies.Name = "dataGridMovies";
+
+            // dataGridShows
+            this.dataGridShows = new System.Windows.Forms.DataGridView();
+            this.dataGridShows.Location = new System.Drawing.Point(20, 410);
+            this.dataGridShows.Size = new System.Drawing.Size(500, 150);
+            this.dataGridShows.Name = "dataGridShows";
+
+            // dataGridSeats
+            this.dataGridSeats = new System.Windows.Forms.DataGridView();
+            this.dataGridSeats.Location = new System.Drawing.Point(20, 570);
+            this.dataGridSeats.Size = new System.Drawing.Size(500, 150);
+            this.dataGridSeats.Name = "dataGridSeats";
+
             this.Controls.Add(this.dataGridMovies);
+            this.Controls.Add(this.dataGridShows);
+            this.Controls.Add(this.dataGridSeats);
+
         }
 
         private System.Windows.Forms.DataGridView dataGridMovies;
-    
+        private System.Windows.Forms.DataGridView dataGridShows;
+        private System.Windows.Forms.DataGridView dataGridSeats;
+
         #endregion
     }
 }
