@@ -174,6 +174,9 @@
             this.Controls.Add(this.dataGridShows);
             this.Controls.Add(this.dataGridSeats);
 
+            this.dataGridSeats.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridSeats_CellFormatting);
+
+
         }
 
         private System.Windows.Forms.DataGridView dataGridMovies;
