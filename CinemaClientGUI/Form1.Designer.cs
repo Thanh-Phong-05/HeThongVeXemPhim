@@ -170,6 +170,16 @@
             this.dataGridSeats.Size = new System.Drawing.Size(500, 150);
             this.dataGridSeats.Name = "dataGridSeats";
 
+            // panelSeats
+            this.panelSeats = new System.Windows.Forms.Panel();
+            this.panelSeats.Location = new System.Drawing.Point(20, 470);
+            this.panelSeats.Size = new System.Drawing.Size(500, 250);
+            this.panelSeats.BorderStyle = BorderStyle.FixedSingle;
+            this.panelSeats.AutoScroll = true;
+            this.Controls.Add(this.panelSeats);
+
+
+
             this.Controls.Add(this.dataGridMovies);
             this.Controls.Add(this.dataGridShows);
             this.Controls.Add(this.dataGridSeats);
@@ -182,6 +192,7 @@
         private System.Windows.Forms.DataGridView dataGridMovies;
         private System.Windows.Forms.DataGridView dataGridShows;
         private System.Windows.Forms.DataGridView dataGridSeats;
+        private System.Windows.Forms.Panel panelSeats;
 
         #endregion
     }
