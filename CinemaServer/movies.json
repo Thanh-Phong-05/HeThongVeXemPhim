@@ -1,0 +1,24 @@
+[
+  { "Id": "M1", "Title": "Inception", "Genre": "Sci-Fi", "Duration": 148, "Director": "Christopher Nolan" },
+  { "Id": "M2", "Title": "Interstellar", "Genre": "Sci-Fi", "Duration": 169, "Director": "Christopher Nolan" },
+  { "Id": "M3", "Title": "The Dark Knight", "Genre": "Action", "Duration": 152, "Director": "Christopher Nolan" },
+  { "Id": "M4", "Title": "Avengers: Endgame", "Genre": "Superhero", "Duration": 181, "Director": "Anthony & Joe Russo" },
+  { "Id": "M5", "Title": "Avatar", "Genre": "Sci-Fi", "Duration": 162, "Director": "James Cameron" },
+  { "Id": "M6", "Title": "Titanic", "Genre": "Romance", "Duration": 195, "Director": "James Cameron" },
+  { "Id": "M7", "Title": "The Matrix", "Genre": "Sci-Fi", "Duration": 136, "Director": "The Wachowskis" },
+  { "Id": "M8", "Title": "Gladiator", "Genre": "Historical Drama", "Duration": 155, "Director": "Ridley Scott" },
+  { "Id": "M9", "Title": "Joker", "Genre": "Drama", "Duration": 122, "Director": "Todd Phillips" },
+  { "Id": "M10", "Title": "Parasite", "Genre": "Thriller", "Duration": 132, "Director": "Bong Joon-ho" },
+
+  { "Id": "M11", "Title": "Em Chưa 18", "Genre": "Romantic Comedy", "Duration": 96, "Director": "Lê Thanh Sơn" },
+  { "Id": "M12", "Title": "Mắt Biếc", "Genre": "Romance", "Duration": 117, "Director": "Victor Vũ" },
+  { "Id": "M13", "Title": "Hai Phượng", "Genre": "Action", "Duration": 98, "Director": "Lê Văn Kiệt" },
+  { "Id": "M14", "Title": "Lật Mặt: 48h", "Genre": "Action", "Duration": 110, "Director": "Lý Hải" },
+  { "Id": "M15", "Title": "Bố Già", "Genre": "Drama", "Duration": 128, "Director": "Trấn Thành" },
+
+  { "Id": "M16", "Title": "The Godfather", "Genre": "Crime", "Duration": 175, "Director": "Francis Ford Coppola" },
+  { "Id": "M17", "Title": "Forrest Gump", "Genre": "Drama", "Duration": 142, "Director": "Robert Zemeckis" },
+  { "Id": "M18", "Title": "The Lion King", "Genre": "Animation", "Duration": 88, "Director": "Roger Allers, Rob Minkoff" },
+  { "Id": "M19", "Title": "Spirited Away", "Genre": "Animation", "Duration": 125, "Director": "Hayao Miyazaki" },
+  { "Id": "M20", "Title": "Black Panther", "Genre": "Superhero", "Duration": 134, "Director": "Ryan Coogler" }
+]

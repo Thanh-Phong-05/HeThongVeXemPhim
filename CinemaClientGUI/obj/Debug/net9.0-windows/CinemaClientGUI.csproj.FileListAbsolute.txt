@@ -3,3 +3,13 @@ D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClie
 D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.AssemblyInfo.cs
 D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.csproj.CoreCompileInputs.cache
 D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.sourcelink.json
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\bin\Debug\net9.0-windows\CinemaClientGUI.exe
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\bin\Debug\net9.0-windows\CinemaClientGUI.deps.json
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\bin\Debug\net9.0-windows\CinemaClientGUI.runtimeconfig.json
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\bin\Debug\net9.0-windows\CinemaClientGUI.dll
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\bin\Debug\net9.0-windows\CinemaClientGUI.pdb
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.dll
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\refint\CinemaClientGUI.dll
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.pdb
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.genruntimeconfig.cache
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\ref\CinemaClientGUI.dll
