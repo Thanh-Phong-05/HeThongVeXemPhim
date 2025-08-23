@@ -253,8 +253,8 @@ public partial class Form1 : Form
 }
 public class MovieDto
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
+        public string? Id { get; set; }
+        public string? Title { get; set; }
     }
 
 
