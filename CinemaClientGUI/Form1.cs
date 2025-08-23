@@ -163,6 +163,59 @@ public partial class Form1 : Form
         }
     }
 
+    private void RenderSeatMap(int rows, int cols, List<string> booked)
+    {
+        panelSeats.Controls.Clear();
+
+        int btnSize = 35; // kích thước mỗi ghế
+        int spacing = 5;
+
+        for (int r = 0; r < rows; r++)
+        {
+            char rowChar = (char)('A' + r);
+            for (int c = 1; c <= cols; c++)
+            {
+                string seatId = $"{rowChar}{c}";
+
+                Button btn = new Button();
+                btn.Text = seatId;
+                btn.Width = btnSize;
+                btn.Height = btnSize;
+                btn.Left = c * (btnSize + spacing);
+                btn.Top = r * (btnSize + spacing);
+
+                // nếu ghế đã đặt -> tô đỏ, disable
+                if (booked.Contains(seatId))
+                {
+                    btn.BackColor = Color.LightCoral;
+                    btn.Enabled = false;
+                }
+                else
+                {
+                    btn.BackColor = Color.LightGreen;
+                    btn.Enabled = true;
+                    btn.Click += (s, e) =>
+                    {
+                        if (btn.BackColor == Color.LightGreen) // chọn
+                        {
+                            btn.BackColor = Color.Yellow;
+                            txtSeats.Text += (txtSeats.Text.Length > 0 ? "," : "") + seatId;
+                        }
+                        else if (btn.BackColor == Color.Yellow) // bỏ chọn
+                        {
+                            btn.BackColor = Color.LightGreen;
+                            var seats = txtSeats.Text.Split(',').Where(x => x != seatId).ToArray();
+                            txtSeats.Text = string.Join(",", seats);
+                        }
+                    };
+                }
+
+                panelSeats.Controls.Add(btn);
+            }
+        }
+    }
+
+
 }
 public class MovieDto
     {
