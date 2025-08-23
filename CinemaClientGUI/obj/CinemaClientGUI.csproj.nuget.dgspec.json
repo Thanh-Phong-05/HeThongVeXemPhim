@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGUI\\CinemaClientGUI.csproj": {}
+    "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGui\\CinemaClientGUI.csproj": {}
   },
   "projects": {
-    "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGUI\\CinemaClientGUI.csproj": {
+    "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGui\\CinemaClientGUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGUI\\CinemaClientGUI.csproj",
+        "projectUniqueName": "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGui\\CinemaClientGUI.csproj",
         "projectName": "CinemaClientGUI",
-        "projectPath": "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGUI\\CinemaClientGUI.csproj",
+        "projectPath": "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGui\\CinemaClientGUI.csproj",
         "packagesPath": "C:\\Users\\phong\\.nuget\\packages\\",
-        "outputPath": "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGUI\\obj\\",
+        "outputPath": "D:\\LapTrinhMang\\SystemCinema\\CinemaClientGui\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\phong\\AppData\\Roaming\\NuGet\\NuGet.Config"

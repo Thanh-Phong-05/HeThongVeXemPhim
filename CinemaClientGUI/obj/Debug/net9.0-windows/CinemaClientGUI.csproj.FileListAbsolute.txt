@@ -1,0 +1,5 @@
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.GeneratedMSBuildEditorConfig.editorconfig
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.AssemblyInfoInputs.cache
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.AssemblyInfo.cs
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.csproj.CoreCompileInputs.cache
+D:\LapTrinhMang\SystemCinema\CinemaClientGui\obj\Debug\net9.0-windows\CinemaClientGUI.sourcelink.json
