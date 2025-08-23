@@ -25,4 +25,19 @@ public partial class Form1 : Form
         string hello = await _reader.ReadLineAsync() ?? "";
         MessageBox.Show($"Connected: {hello}");
     }
+
+    private async void btnListMovies_Click(object sender, EventArgs e)
+    {
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_movies" }));
+        string resp = await _reader!.ReadLineAsync() ?? "";
+        txtOutput.Text = resp;
+    }
+
+    private async void btnListShows_Click(object sender, EventArgs e)
+    {
+        string movieId = txtMovieId.Text.Trim();
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_shows", movieId }));
+        string resp = await _reader!.ReadLineAsync() ?? "";
+        txtOutput.Text = resp;
+    }
 }
