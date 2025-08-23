@@ -14,7 +14,7 @@ public class Program
         using var client = new TcpClient();
         client.NoDelay = true;
         await client.ConnectAsync(host, port);
-        Console.WriteLine($"✅ Kết nối {host}:{port}");
+        Console.WriteLine($" Kết nối {host}:{port}");
 
         using var stream = client.GetStream();
         using var reader = new StreamReader(stream, Encoding.UTF8);

@@ -18,7 +18,14 @@ public class Program
     }
 }
 
-public record Movie(string Id, string Title);
+public record Movie
+(
+    string Id,
+    string Title,
+    string Genre,
+    int Duration,
+    string Director
+);
 
 
 public class Show
