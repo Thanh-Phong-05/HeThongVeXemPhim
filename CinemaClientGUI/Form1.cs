@@ -148,6 +148,20 @@ public partial class Form1 : Form
         dataGridSeats.DataSource = seatsTable;
     }
 
+    private void dataGridSeats_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    {
+        if (dataGridSeats.Columns[e.ColumnIndex].Name == "Available" && e.Value != null && e.Value.ToString() != "")
+        {
+            e.CellStyle.BackColor = Color.LightGreen;
+            e.CellStyle.ForeColor = Color.Black;
+        }
+
+        if (dataGridSeats.Columns[e.ColumnIndex].Name == "Booked" && e.Value != null && e.Value.ToString() != "")
+        {
+            e.CellStyle.BackColor = Color.LightCoral;
+            e.CellStyle.ForeColor = Color.White;
+        }
+    }
 
 }
 public class MovieDto
