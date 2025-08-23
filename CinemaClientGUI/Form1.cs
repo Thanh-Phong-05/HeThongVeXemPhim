@@ -116,7 +116,26 @@ public partial class Form1 : Form
         await _writer!.WriteLineAsync(payload);
         var resp = await _reader!.ReadLineAsync();
 
-        MessageBox.Show($"← {resp}");
+        if (resp != null)
+        {
+            using var doc = JsonDocument.Parse(resp);
+            bool ok = doc.RootElement.GetProperty("ok").GetBoolean();
+
+            if (ok)
+            {
+                var booked = doc.RootElement.GetProperty("booked")
+                    .EnumerateArray().Select(x => x.GetString()).ToList();
+                MessageBox.Show($"✅ Đặt ghế thành công: {string.Join(", ", booked)}", 
+                    "Booking Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                var failed = doc.RootElement.GetProperty("failed")
+                    .EnumerateArray().Select(x => x.GetString()).ToList();
+                MessageBox.Show($"❌ Ghế đã bị đặt: {string.Join(", ", failed)}", 
+                    "Booking Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
         await RefreshSeats(showId);
     }
 
@@ -129,7 +148,27 @@ public partial class Form1 : Form
         await _writer!.WriteLineAsync(payload);
         var resp = await _reader!.ReadLineAsync();
 
-        MessageBox.Show($"← {resp}");
+        if (resp != null)
+        {
+            using var doc = JsonDocument.Parse(resp);
+            bool ok = doc.RootElement.GetProperty("ok").GetBoolean();
+
+            if (ok)
+            {
+                var released = doc.RootElement.GetProperty("released")
+                    .EnumerateArray().Select(x => x.GetString()).ToList();
+                MessageBox.Show($"✅ Hủy ghế thành công: {string.Join(", ", released)}",
+                    "Release Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                var failed = doc.RootElement.GetProperty("failed")
+                    .EnumerateArray().Select(x => x.GetString()).ToList();
+                MessageBox.Show($"❌ Không thể hủy các ghế: {string.Join(", ", failed)}",
+                    "Release Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         await RefreshSeats(showId);
     }
 
