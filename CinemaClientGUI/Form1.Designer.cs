@@ -79,7 +79,7 @@
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtOutput.Size = new System.Drawing.Size(500, 200);
+            this.txtOutput.Size = new System.Drawing.Size(200, 300);
 
             // 
             // btnListMovies
@@ -154,26 +154,26 @@
 
             // dataGridMovies
             this.dataGridMovies = new System.Windows.Forms.DataGridView();
-            this.dataGridMovies.Location = new System.Drawing.Point(20, 250);
-            this.dataGridMovies.Size = new System.Drawing.Size(500, 200);
+            this.dataGridMovies.Location = new System.Drawing.Point(250, 20);
+            this.dataGridMovies.Size = new System.Drawing.Size(400, 150);
             this.dataGridMovies.Name = "dataGridMovies";
 
             // dataGridShows
             this.dataGridShows = new System.Windows.Forms.DataGridView();
-            this.dataGridShows.Location = new System.Drawing.Point(20, 410);
-            this.dataGridShows.Size = new System.Drawing.Size(500, 150);
+            this.dataGridShows.Location = new System.Drawing.Point(250, 190);
+            this.dataGridShows.Size = new System.Drawing.Size(400, 150);
             this.dataGridShows.Name = "dataGridShows";
 
             // dataGridSeats
             this.dataGridSeats = new System.Windows.Forms.DataGridView();
-            this.dataGridSeats.Location = new System.Drawing.Point(20, 570);
-            this.dataGridSeats.Size = new System.Drawing.Size(500, 150);
+            this.dataGridSeats.Location = new System.Drawing.Point(250, 360);
+            this.dataGridSeats.Size = new System.Drawing.Size(400, 150);
             this.dataGridSeats.Name = "dataGridSeats";
 
             // panelSeats
             this.panelSeats = new System.Windows.Forms.Panel();
-            this.panelSeats.Location = new System.Drawing.Point(20, 470);
-            this.panelSeats.Size = new System.Drawing.Size(500, 250);
+            this.panelSeats.Location = new System.Drawing.Point(670, 20);
+            this.panelSeats.Size = new System.Drawing.Size(400, 500);
             this.panelSeats.BorderStyle = BorderStyle.FixedSingle;
             this.panelSeats.AutoScroll = true;
             this.Controls.Add(this.panelSeats);

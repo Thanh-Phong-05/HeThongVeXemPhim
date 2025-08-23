@@ -1,6 +1,10 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Drawing;             // để dùng Color, Button, Panel...
+using System.Linq;                // để dùng .Select/.Where/.ToList()
+using System.Collections.Generic; // để dùng List<string>
+
 
 namespace CinemaClientGUI;
 
@@ -29,9 +33,9 @@ public partial class Form1 : Form
     private async void btnListMovies_Click(object sender, EventArgs e)
     {
         string payload = JsonSerializer.Serialize(new { action = "list_movies" });
-        await writer.WriteLineAsync(payload);
+        await _writer!.WriteLineAsync(payload);
 
-        var resp = await reader.ReadLineAsync();
+        var resp = await _reader!.ReadLineAsync();
         var doc = JsonDocument.Parse(resp);
         var root = doc.RootElement;
 
@@ -58,8 +62,8 @@ public partial class Form1 : Form
     {
         var movieId = txtMovieId.Text.Trim();
         var payload = JsonSerializer.Serialize(new { action = "list_shows", movieId });
-        await writer.WriteLineAsync(payload);
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(payload);
+        var resp = await _reader!.ReadLineAsync();
 
         var json = JsonDocument.Parse(resp);
         var shows = json.RootElement.GetProperty("shows")
@@ -78,15 +82,29 @@ public partial class Form1 : Form
     private async void btnViewSeats_Click(object sender, EventArgs e)
     {
         var showId = txtShowId.Text.Trim();
+        if (string.IsNullOrEmpty(showId))
+        {
+            txtOutput.AppendText("⚠ Nhập ShowId trước.\n");
+            return;
+        }
+
         var payload = JsonSerializer.Serialize(new { action = "view_seats", showId });
-        await writer.WriteLineAsync(payload);
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(payload);
+        var resp = await _reader!.ReadLineAsync();
 
-        var json = JsonDocument.Parse(resp);
-        var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString()).ToList();
-        var booked = json.RootElement.GetProperty("booked").EnumerateArray().Select(x => x.GetString()).ToList();
+        var json = JsonDocument.Parse(resp!);
+        if (!json.RootElement.GetProperty("ok").GetBoolean())
+        {
+            txtOutput.AppendText("❌ Lỗi khi xem ghế.\n");
+            return;
+        }
 
-        // ghép thành bảng Available vs Booked
+        int rows = json.RootElement.GetProperty("rows").GetInt32();
+        int cols = json.RootElement.GetProperty("cols").GetInt32();
+        var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
+        var booked = json.RootElement.GetProperty("booked").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
+
+        // đổ bảng Available vs Booked
         var maxLen = Math.Max(available.Count, booked.Count);
         var seatsTable = Enumerable.Range(0, maxLen)
             .Select(i => new
@@ -95,17 +113,22 @@ public partial class Form1 : Form
                 Booked = i < booked.Count ? booked[i] : ""
             })
             .ToList();
-
         dataGridSeats.DataSource = seatsTable;
+
+        // vẽ sơ đồ ghế
+        RenderSeatMap(rows, cols, booked);
+
+        txtOutput.AppendText("✅ Đã load sơ đồ ghế.\n");
     }
+
     private async void btnBook_Click(object sender, EventArgs e)
     {
         var showId = txtShowId.Text.Trim();
         var seats = txtSeats.Text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         var payload = JsonSerializer.Serialize(new { action = "book", showId, seats });
-        await writer.WriteLineAsync(payload);
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(payload);
+        var resp = await _reader!.ReadLineAsync();
 
         txtOutput.Text = $"← {resp}";
 
@@ -118,8 +141,8 @@ public partial class Form1 : Form
         var seats = txtSeats.Text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         var payload = JsonSerializer.Serialize(new { action = "release", showId, seats });
-        await writer.WriteLineAsync(payload);
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(payload);
+        var resp = await _reader!.ReadLineAsync();
 
         txtOutput.Text = $"← {resp}";
 
@@ -129,8 +152,8 @@ public partial class Form1 : Form
     private async Task RefreshSeats(string showId)
     {
         var payload = JsonSerializer.Serialize(new { action = "view_seats", showId });
-        await writer.WriteLineAsync(payload);
-        var resp = await reader.ReadLineAsync();
+        await _writer!.WriteLineAsync(payload);
+        var resp = await _reader!.ReadLineAsync();
 
         var json = JsonDocument.Parse(resp);
         var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString()).ToList();
