@@ -32,44 +32,43 @@ public partial class Form1 : Form
 
     private async void btnListMovies_Click(object sender, EventArgs e)
     {
-        string payload = JsonSerializer.Serialize(new { action = "list_movies" });
-        await _writer!.WriteLineAsync(payload);
+        await writer.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_movies" }));
+        var resp = await reader.ReadLineAsync();
 
-        var resp = await _reader!.ReadLineAsync();
-        var doc = JsonDocument.Parse(resp);
-        var root = doc.RootElement;
-
-        if (root.GetProperty("ok").GetBoolean())
+        using var doc = JsonDocument.Parse(resp);
+        if (!doc.RootElement.GetProperty("ok").GetBoolean())
         {
-            var movies = root.GetProperty("movies")
-                .EnumerateArray()
-                .Select(m => new MovieDto
-                {
-                    Id = m.GetProperty("Id").GetString(),
-                    Title = m.GetProperty("Title").GetString()
-                })
-                .ToList();
+            MessageBox.Show("Không lấy được danh sách phim");
+            return;
+        }
 
-            dataGridMovies.DataSource = movies;
-        }
-        else
-        {
-            MessageBox.Show("Lỗi khi lấy danh sách phim");
-        }
+        var movies = doc.RootElement.GetProperty("movies")
+            .EnumerateArray()
+            .Select(m => new {
+                Id = m.GetProperty("Id").GetString(),
+                Title = m.GetProperty("Title").GetString()
+            })
+            .ToList();
+
+        dataGridMovies.DataSource = movies;
     }
 
     private async void btnListShows_Click(object sender, EventArgs e)
     {
         var movieId = txtMovieId.Text.Trim();
-        var payload = JsonSerializer.Serialize(new { action = "list_shows", movieId });
-        await _writer!.WriteLineAsync(payload);
-        var resp = await _reader!.ReadLineAsync();
+        await writer.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_shows", movieId }));
+        var resp = await reader.ReadLineAsync();
 
-        var json = JsonDocument.Parse(resp);
-        var shows = json.RootElement.GetProperty("shows")
+        using var doc = JsonDocument.Parse(resp);
+        if (!doc.RootElement.GetProperty("ok").GetBoolean())
+        {
+            MessageBox.Show("Không lấy được danh sách suất chiếu");
+            return;
+        }
+
+        var shows = doc.RootElement.GetProperty("shows")
             .EnumerateArray()
-            .Select(s => new
-            {
+            .Select(s => new {
                 Id = s.GetProperty("Id").GetString(),
                 MovieId = s.GetProperty("MovieId").GetString(),
                 StartTime = s.GetProperty("startTime").GetDateTime()
@@ -79,47 +78,33 @@ public partial class Form1 : Form
         dataGridShows.DataSource = shows;
     }
 
+
     private async void btnViewSeats_Click(object sender, EventArgs e)
     {
         var showId = txtShowId.Text.Trim();
-        if (string.IsNullOrEmpty(showId))
+        await writer.WriteLineAsync(JsonSerializer.Serialize(new { action = "view_seats", showId }));
+        var resp = await reader.ReadLineAsync();
+
+        using var doc = JsonDocument.Parse(resp);
+        if (!doc.RootElement.GetProperty("ok").GetBoolean())
         {
-            txtOutput.AppendText("⚠ Nhập ShowId trước.\n");
+            MessageBox.Show("Không lấy được ghế");
             return;
         }
 
-        var payload = JsonSerializer.Serialize(new { action = "view_seats", showId });
-        await _writer!.WriteLineAsync(payload);
-        var resp = await _reader!.ReadLineAsync();
+        var available = doc.RootElement.GetProperty("available")
+            .EnumerateArray().Select(x => x.GetString()).ToList();
+        var booked = doc.RootElement.GetProperty("booked")
+            .EnumerateArray().Select(x => x.GetString()).ToList();
 
-        var json = JsonDocument.Parse(resp!);
-        if (!json.RootElement.GetProperty("ok").GetBoolean())
-        {
-            txtOutput.AppendText("❌ Lỗi khi xem ghế.\n");
-            return;
-        }
-
-        int rows = json.RootElement.GetProperty("rows").GetInt32();
-        int cols = json.RootElement.GetProperty("cols").GetInt32();
-        var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
-        var booked = json.RootElement.GetProperty("booked").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
-
-        // đổ bảng Available vs Booked
-        var maxLen = Math.Max(available.Count, booked.Count);
-        var seatsTable = Enumerable.Range(0, maxLen)
-            .Select(i => new
-            {
-                Available = i < available.Count ? available[i] : "",
-                Booked = i < booked.Count ? booked[i] : ""
-            })
+        var seats = available.Select(a => new { Seat = a, Status = "Available" })
+            .Concat(booked.Select(b => new { Seat = b, Status = "Booked" }))
+            .OrderBy(x => x.Seat)
             .ToList();
-        dataGridSeats.DataSource = seatsTable;
 
-        // vẽ sơ đồ ghế
-        RenderSeatMap(rows, cols, booked);
-
-        txtOutput.AppendText("✅ Đã load sơ đồ ghế.\n");
+        dataGridSeats.DataSource = seats;
     }
+
 
     private async void btnBook_Click(object sender, EventArgs e)
     {
