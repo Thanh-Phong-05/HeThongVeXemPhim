@@ -150,7 +150,18 @@ public class TicketServer
             {
                 case "list_movies":
                     {
-                        return JsonSerializer.Serialize(new { ok = true, movies = _movies.Values.Select(m => new { m.Id, m.Title }) });
+                        return JsonSerializer.Serialize(new
+                        {
+                            ok = true,
+                            movies = _movies.Values.Select(m => new
+                            {
+                                m.Id,
+                                m.Title,
+                                m.Genre,
+                                m.Duration,
+                                m.Director
+                            })
+                        });
                     }
                 case "list_shows":
                     {
