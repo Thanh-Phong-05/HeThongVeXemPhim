@@ -40,4 +40,12 @@ public partial class Form1 : Form
         string resp = await _reader!.ReadLineAsync() ?? "";
         txtOutput.Text = resp;
     }
+
+     private async void btnViewSeats_Click(object sender, EventArgs e)
+    {
+        string showId = txtShowId.Text.Trim();
+        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "view_seats", showId }));
+        string resp = await _reader!.ReadLineAsync() ?? "";
+        txtOutput.Text = resp;
+    }
 }
