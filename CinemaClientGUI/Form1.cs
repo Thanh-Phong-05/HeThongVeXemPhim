@@ -155,9 +155,17 @@ public partial class Form1 : Form
         await _writer!.WriteLineAsync(payload);
         var resp = await _reader!.ReadLineAsync();
 
-        var json = JsonDocument.Parse(resp);
-        var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString()).ToList();
-        var booked = json.RootElement.GetProperty("booked").EnumerateArray().Select(x => x.GetString()).ToList();
+        var json = JsonDocument.Parse(resp!);
+        if (!json.RootElement.GetProperty("ok").GetBoolean())
+        {
+            txtOutput.AppendText("❌ Lỗi khi refresh seats.\n");
+            return;
+        }
+
+        int rows = json.RootElement.GetProperty("rows").GetInt32();
+        int cols = json.RootElement.GetProperty("cols").GetInt32();
+        var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
+        var booked = json.RootElement.GetProperty("booked").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
 
         var maxLen = Math.Max(available.Count, booked.Count);
         var seatsTable = Enumerable.Range(0, maxLen)
@@ -167,9 +175,12 @@ public partial class Form1 : Form
                 Booked = i < booked.Count ? booked[i] : ""
             })
             .ToList();
-
         dataGridSeats.DataSource = seatsTable;
+
+        // vẽ lại sơ đồ ghế
+        RenderSeatMap(rows, cols, booked);
     }
+
 
     private void dataGridSeats_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
