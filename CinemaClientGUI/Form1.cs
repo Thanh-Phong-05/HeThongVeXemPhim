@@ -77,7 +77,7 @@ public partial class Form1 : Form
 
     private async void btnViewSeats_Click(object sender, EventArgs e)
     {
-         var showId = txtShowId.Text.Trim();
+        var showId = txtShowId.Text.Trim();
         var payload = JsonSerializer.Serialize(new { action = "view_seats", showId });
         await writer.WriteLineAsync(payload);
         var resp = await reader.ReadLineAsync();
@@ -114,7 +114,7 @@ public partial class Form1 : Form
 
     private async void btnRelease_Click(object sender, EventArgs e)
     {
-         var showId = txtShowId.Text.Trim();
+        var showId = txtShowId.Text.Trim();
         var seats = txtSeats.Text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         var payload = JsonSerializer.Serialize(new { action = "release", showId, seats });
@@ -125,6 +125,30 @@ public partial class Form1 : Form
 
         await RefreshSeats(showId);
     }
+
+    private async Task RefreshSeats(string showId)
+    {
+        var payload = JsonSerializer.Serialize(new { action = "view_seats", showId });
+        await writer.WriteLineAsync(payload);
+        var resp = await reader.ReadLineAsync();
+
+        var json = JsonDocument.Parse(resp);
+        var available = json.RootElement.GetProperty("available").EnumerateArray().Select(x => x.GetString()).ToList();
+        var booked = json.RootElement.GetProperty("booked").EnumerateArray().Select(x => x.GetString()).ToList();
+
+        var maxLen = Math.Max(available.Count, booked.Count);
+        var seatsTable = Enumerable.Range(0, maxLen)
+            .Select(i => new
+            {
+                Available = i < available.Count ? available[i] : "",
+                Booked = i < booked.Count ? booked[i] : ""
+            })
+            .ToList();
+
+        dataGridSeats.DataSource = seatsTable;
+    }
+
+
 }
 public class MovieDto
     {
