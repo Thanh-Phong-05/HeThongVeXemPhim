@@ -28,9 +28,30 @@ public partial class Form1 : Form
 
     private async void btnListMovies_Click(object sender, EventArgs e)
     {
-        await _writer!.WriteLineAsync(JsonSerializer.Serialize(new { action = "list_movies" }));
-        string resp = await _reader!.ReadLineAsync() ?? "";
-        txtOutput.Text = resp;
+        string payload = JsonSerializer.Serialize(new { action = "list_movies" });
+        await writer.WriteLineAsync(payload);
+
+        var resp = await reader.ReadLineAsync();
+        var doc = JsonDocument.Parse(resp);
+        var root = doc.RootElement;
+
+        if (root.GetProperty("ok").GetBoolean())
+        {
+            var movies = root.GetProperty("movies")
+                .EnumerateArray()
+                .Select(m => new MovieDto
+                {
+                    Id = m.GetProperty("Id").GetString(),
+                    Title = m.GetProperty("Title").GetString()
+                })
+                .ToList();
+
+            dataGridMovies.DataSource = movies;
+        }
+        else
+        {
+            MessageBox.Show("Lỗi khi lấy danh sách phim");
+        }
     }
 
     private async void btnListShows_Click(object sender, EventArgs e)
@@ -66,3 +87,10 @@ public partial class Form1 : Form
         txtOutput.Text = resp;
     }
 }
+public class MovieDto
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+    }
+
+

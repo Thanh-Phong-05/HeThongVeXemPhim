@@ -151,8 +151,17 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
+            // dataGridMovies
+            this.dataGridMovies = new System.Windows.Forms.DataGridView();
+            this.dataGridMovies.Location = new System.Drawing.Point(20, 250);
+            this.dataGridMovies.Size = new System.Drawing.Size(500, 200);
+            this.dataGridMovies.Name = "dataGridMovies";
+            this.Controls.Add(this.dataGridMovies);
         }
 
+        private System.Windows.Forms.DataGridView dataGridMovies;
+    
         #endregion
     }
 }
